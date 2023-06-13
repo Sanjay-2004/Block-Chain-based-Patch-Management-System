@@ -8,9 +8,9 @@ export default function Patches() {
     let account, data;
     useEffect(() => {
         fromAdmin();
-      },[]);
+    },[]);
 
-      const sendtoVerify = async(i) =>{
+    const sendtoVerify = async(i) =>{
         if(window.ethereum!=="undefined"){
             console.log("check")
             const accounts = await ethereum.request({method: "eth_requestAccounts"});
@@ -47,9 +47,9 @@ export default function Patches() {
             // }
         }	
       // id of file filefor${i}
-      }
+     }
 
-      const fromAdmin = async() =>{
+    const fromAdmin = async() =>{
         if(window.ethereum!=="undefined"){
             const accounts = await ethereum.request({method: "eth_requestAccounts"});
             account = accounts[0];
@@ -169,20 +169,14 @@ export default function Patches() {
                     </button>
                     </h2>
                     <div id="req${i}" class="accordion-collapse collapse`
-                    if(temp.approved==-1 || temp.uploaded!=1){
-                        forDeveloper+=`show`
-                    }
-                    else{
-                        forDeveloper+=``
-                    }
+                    if(temp.approved==-1 || temp.uploaded!=1) forDeveloper+=`show`
+                    else forDeveloper+=``
                     forDeveloper+=`" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
                 <small>SENT AT: ${temp.timeofReport}</small><br>
                 <div class="container border my-2 p-3">
                 <h5>PATCH DESCRIPTION<br></h5>`
-                for(let j in dd){
-                    forDeveloper+=`${dd[j]}<br>`
-                }
+                for(let j in dd) forDeveloper+=`${dd[j]}<br>`
                 forDeveloper+=`</div>
                     <div class="row mt-3 gx-3">
                         <div class="col">
