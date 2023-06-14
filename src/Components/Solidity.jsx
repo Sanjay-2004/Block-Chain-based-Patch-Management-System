@@ -724,5 +724,4 @@ export const ABI = [
 		"type": "function"
 	}
 ];
-
 export const Address = "0x96c89cDaE66C005f776A5dDbAe42DBF3Aa706D71";
