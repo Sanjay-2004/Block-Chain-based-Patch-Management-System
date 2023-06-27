@@ -3,7 +3,9 @@ import { NavLink, Outlet } from 'react-router-dom'
 
 export default function Adminnav() {
 
-    const handleLogout = "";
+    const handleLogout = () => {
+
+    };
     // Need to do
     return (
 
@@ -24,6 +26,9 @@ export default function Adminnav() {
                             </li>
                             <li className="nav-item ms-5">
                                 <NavLink className="nav-link text-white" to="current-request">CURRENT REQUEST</NavLink>
+                            </li>
+                            <li className="nav-item ms-5">
+                                <NavLink className="nav-link text-white" to="register-new">NEW REGISTRATION</NavLink>
                             </li>
                             <li className="nav-item ms-5">
                                 <div className="btn-group dropstart">
