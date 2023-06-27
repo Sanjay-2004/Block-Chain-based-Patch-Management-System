@@ -10,7 +10,7 @@ export default function Fromusers() {
 
   const fetchBugReports = async () => {
     try {
-      const response = await fetch('http://localhost:5000/bug-reports');
+      const response = await fetch('http://localhost:8080/bug-reports');
       const data = await response.json();
 
       const unresolved = data.filter((bug) => !bug.okbyReporter);
@@ -27,7 +27,7 @@ export default function Fromusers() {
     const isChecked = event.target.checked;
 
     try {
-      await fetch(`http://localhost:5000/bug-reports/${bugId}`, {
+      await fetch(`http://localhost:8080/bug-reports/${bugId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

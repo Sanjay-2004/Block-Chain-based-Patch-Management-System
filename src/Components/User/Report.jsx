@@ -5,32 +5,32 @@ export default function Report() {
   const [bugDescription, setBugDescription] = useState('');
 
   const submitBug = async () => {
-  const bugData = { email, bugDescription };
+    const bugData = { email, bugDescription };
 
-  try {
-    await fetch('http://localhost:5000/create-bug', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(bugData),
-    })
-      .then(
-        response=>response.json()
-      ).then(
-        data=> {
-          if(data.status){
-            const k = document.getElementById('submitted');
-            k.innerHTML=`BUG SENT SUCCESSFULLY<br>THANK YOU`;
-            setEmail('');
-            setBugDescription('');
+    try {
+      await fetch('http://localhost:8080/create-bug', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(bugData),
+      })
+        .then(
+          response => response.json()
+        ).then(
+          data => {
+            if (data.status) {
+              const k = document.getElementById('submitted');
+              k.innerHTML = `BUG SENT SUCCESSFULLY<br>THANK YOU`;
+              setEmail('');
+              setBugDescription('');
+            }
           }
-        }
-      );
-  } catch (error) {
-    console.error('Error submitting bug:', error);
-  }
-};
+        );
+    } catch (error) {
+      console.error('Error submitting bug:', error);
+    }
+  };
 
   return (
     <div className="container my-5">
@@ -62,7 +62,7 @@ export default function Report() {
       </div>
       <div className="my-2">
         <center id='submitted'>
-          <button type="submit"  onClick={submitBug} className="btn btn-secondary">
+          <button type="submit" onClick={submitBug} className="btn btn-secondary">
             SUBMIT
           </button>
         </center>
