@@ -24,7 +24,7 @@ struct listOfBnF {
     int uploaded;
     int approved;
     string filename;
-    bytes patch;
+    string cid;
 }
 
 struct fromReporter{
@@ -128,12 +128,12 @@ contract PatchDevelopment{
 
     // Used by Developer to submit the patch
     function uploadedbyDev(string memory time_rn, string memory pname, string memory ver, 
-    string memory fileName, bytes memory _patch) public{
+    string memory fileName, string memory _cid) public{
         listOfBnF storage temp = requests[pname];
         temp.timeofReport = time_rn;
         temp.vno = ver;
         temp.filename = fileName;
-        temp.patch = _patch;
+        temp.cid = _cid;
         temp.uploaded = 1;
     }
 

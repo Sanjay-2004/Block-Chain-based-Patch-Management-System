@@ -38,6 +38,7 @@ export default function Adminnav() {
                                     </button>
                                     <ul className="dropdown-menu">
                                         <li><NavLink className="dropdown-item" to="/">Profile</NavLink></li>
+                                        <li><NavLink className="dropdown-item" to="/transactions">Transactions</NavLink></li>
                                         <li><NavLink className="dropdown-item" to="/">Settings</NavLink></li>
                                         <li>
                                             <hr className="dropdown-divider" />
