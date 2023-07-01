@@ -1,29 +1,52 @@
 import express from "express";
 const router = express.Router();
-import { User } from "../Models/User.js";
 import bcrypt from "bcrypt";
 import Joi from "joi";
+import { Employee } from "../Models/Employee.js";
+import { User } from "../Models/User.js";
+import jwt from "jsonwebtoken";
 
 router.post("/", async (req, res) => {
   try {
     const { error } = validate(req.body);
-    if (error)
+    if (error) {
+      console.log("Validation Error:", error);
       return res.status(400).send({ message: error.details[0].message });
+    }
 
-    const user = await User.findOne({ email: req.body.email });
-    if (!user)
-      return res.status(401).send({ message: "Invalid Email or Password" });
+    let user = await User.findOne({ email: req.body.email });
+    let userType = "user";
+    let userRole = null;
+
+    console.log("User found in User collection:", user);
+
+    if (!user) {
+      user = await Employee.findOne({ email: req.body.email });
+      userType = "employee";
+      if (user) userRole = user.role;
+      console.log("User found in Employee collection:", user);
+    }
+
+    if (!user) return res.status(401).send({ message: "Invalid Email" });
 
     const validPassword = await bcrypt.compare(
       req.body.password,
       user.password
     );
-    if (!validPassword)
-      return res.status(401).send({ message: "Invalid Email or Password" });
+    console.log("Valid Password:", validPassword);
 
-    const token = user.generateAuthToken();
-    res.status(200).send({ data: token, message: "logged in successfully" });
+    if (!validPassword)
+      return res.status(401).send({ message: "Invalid Password" });
+
+    const tokenPayload = { _id: user._id, email: user.email, role: user.role };
+
+    console.log("Token Payload:", tokenPayload);
+
+    const token = generateAuthToken(tokenPayload);
+    console.log("Generated Token:", token);
+    res.status(200).send({ data: token, message: "Logged in successfully" });
   } catch (error) {
+    console.log("Error:", error);
     res.status(500).send({ message: "Internal Server Error" });
   }
 });
@@ -34,6 +57,13 @@ const validate = (data) => {
     password: Joi.string().required().label("Password"),
   });
   return schema.validate(data);
+};
+
+const generateAuthToken = (payload) => {
+  const token = jwt.sign(payload, process.env.JWTPRIVATEKEY, {
+    expiresIn: "7d",
+  });
+  return token;
 };
 
 export default router;

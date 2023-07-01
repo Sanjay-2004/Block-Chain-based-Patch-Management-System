@@ -33,16 +33,16 @@ export default function Usernav() {
                                     </button>
                                     <ul className="dropdown-menu">
                                         <li>
-                                            <NavLink className="dropdown-item text-dark bg-light" to="/">Profile</NavLink>
+                                            <NavLink className="dropdown-item text-dark bg-white text-dark bg-light" to="/">Profile</NavLink>
                                         </li>
                                         <li>
-                                            <NavLink className="dropdown-item text-dark bg-light" to="/">Settings</NavLink>
+                                            <NavLink className="dropdown-item text-dark bg-white text-dark bg-light" to="/">Settings</NavLink>
                                         </li>
                                         <li>
                                             <hr className="dropdown-divider" />
                                         </li>
                                         <li>
-                                            <NavLink className="dropdown-item text-dark bg-light" onClick={handleLogout}>
+                                            <NavLink className="dropdown-item text-dark bg-white text-dark bg-light" onClick={handleLogout}>
                                                 Logout
                                             </NavLink>
                                         </li>

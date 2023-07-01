@@ -1,16 +1,19 @@
 import express from "express";
 const router = express.Router();
 import nodemailer from "nodemailer";
-import Employee from "../Models/Employee.js";
+import { Employee, validate } from "../Models/Employee.js";
+import bcrypt from "bcrypt";
+import dotenv from "dotenv";
+dotenv.config();
 
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  service: "gmail",
+  host: process.env.HOST,
+  service: process.env.SERVICE,
   port: 587,
   secure: true,
   auth: {
-    user: "sj18apr.04@gmail.com",
-    pass: "phxnzzpwbsmvxonp",
+    user: process.env.USER,
+    pass: process.env.PASS,
   },
 });
 
@@ -20,7 +23,7 @@ const sendEmail = async (email, subject, text) => {
       from: '"Admin1" <admin@company.com>',
       to: email,
       subject: subject,
-      html: `<p>${text}</p>`,
+      html: `<p>${text}</p><p>Visit <a href="http://localhost:5173/reporter">google.com</a> for more information.</p>`,
     };
 
     transporter.sendMail(mailing, (error, info) => {
@@ -34,13 +37,22 @@ const sendEmail = async (email, subject, text) => {
 
 router.post("/", async (req, res) => {
   try {
+    const { error } = validate(req.body);
+    if (error)
+      return res.status(400).send({ message: error.details[0].message });
+
     const employee = await Employee.findOne({ email: req.body.email });
     if (employee)
       return res
         .status(409)
         .send({ message: "Employee with given email already exists" });
 
-    const newEmployee = await Employee.create(req.body);
+    const salt = await bcrypt.genSalt(Number(process.env.SALT));
+    const hashPassword = await bcrypt.hash(req.body.password, salt);
+    const newEmployee = await new Employee({
+      ...req.body,
+      password: hashPassword,
+    }).save();
     if (newEmployee) {
       const subject = "WELCOME TO OUR COMPANY";
       const text = `This is your password: ${req.body.password}`;
@@ -54,6 +66,7 @@ router.post("/", async (req, res) => {
       res.sendStatus(500);
     }
   } catch (error) {
+    console.log("Error: ", error);
     res.status(500).send({ message: "Internal Server Error" });
   }
 });

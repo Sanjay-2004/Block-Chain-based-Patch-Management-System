@@ -4,9 +4,9 @@ import { NavLink, Outlet } from 'react-router-dom'
 export default function Adminnav() {
 
     const handleLogout = () => {
-
+        localStorage.removeItem("token");
+        window.location.href = "/login/";
     };
-    // Need to do
     return (
 
         <>
@@ -37,16 +37,14 @@ export default function Adminnav() {
                                         <i className="fa-regular fa-user"></i>
                                     </button>
                                     <ul className="dropdown-menu">
-                                        <li><NavLink className="dropdown-item" to="/">Profile</NavLink></li>
-                                        <li><NavLink className="dropdown-item" to="/transactions">Transactions</NavLink></li>
-                                        <li><NavLink className="dropdown-item" to="/">Settings</NavLink></li>
+                                        <li><NavLink className="dropdown-item text-dark bg-white" to="/">Profile</NavLink></li>
+                                        <li><NavLink className="dropdown-item text-dark bg-white" to="/transactions">Transactions</NavLink></li>
+                                        <li><NavLink className="dropdown-item text-dark bg-white" to="/">Settings</NavLink></li>
                                         <li>
                                             <hr className="dropdown-divider" />
                                         </li>
                                         <li>
-                                            <button className="btn btn-link" onClick={handleLogout}>
-                                                <NavLink className="dropdown-item" to="/">Log Out</NavLink>
-                                            </button>
+                                            <NavLink className="dropdown-item text-dark bg-white" onClick={handleLogout}>Log Out</NavLink>
                                         </li>
                                     </ul>
                                 </div>

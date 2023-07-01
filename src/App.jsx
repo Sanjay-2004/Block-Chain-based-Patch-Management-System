@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import jwt_decode from 'jwt-decode';
 import Usernav from './Components/User/Usernav'
 import Report from './Components/User/Report'
 import Update from './Components/User/Update'
@@ -20,40 +21,56 @@ import Error from './Components/Error'
 import Register from './Components/Admin/Register'
 
 export default function App() {
-
-  const user = localStorage.getItem('token');
+  const token = localStorage.getItem('token');
+  const decodedToken = token ? jwt_decode(token) : null;
+  const role = decodedToken ? decodedToken.role : null;
 
   return (
     <BrowserRouter>
       <Routes>
-        {user && <Route path="/" element={<Usernav />}>
-          <Route index element={<Report />} />
-          <Route path='report' element={<Report />} />
-          <Route path='updates' element={<Update />} />
-        </Route>}
+        {role === 'Developer' && (
+          <Route path="/" element={<Developernav />}>
+            <Route index element={<Patches />} />
+            <Route path='requests' element={<Patches />} />
+          </Route>
+        )}
+
+        {role === 'Admin' && (
+          <Route path="/" element={<Adminnav />}>
+            <Route index element={<Deployment />} />
+            <Route path='deployment' element={<Deployment />} />
+            <Route path='current-request' element={<Current />} />
+            <Route path='register-new' element={<Register />} />
+          </Route>
+        )}
+
+        {role === 'Quality' && (
+          <Route path="/" element={<Qualitynav />}>
+            <Route index element={<Verification />} />
+            <Route path='check' element={<Verification />} />
+          </Route>
+        )}
+
+        {role === 'Reporter' && (
+          <Route path="/" element={<Reporternav />}>
+            <Route index element={<Newreports />} />
+            <Route path='report-new' element={<Newreports />} />
+            <Route path='from-users' element={<Fromusers />} />
+            <Route path='previous-requests' element={<Sentreq />} />
+          </Route>
+        )}
+
+        {role === 'User' && (
+          <Route path="/" element={<Usernav />}>
+            <Route index element={<Report />} />
+            <Route path='report' element={<Report />} />
+            <Route path='updates' element={<Update />} />
+          </Route>
+        )}
+
         <Route path="/signup" exact element={<Signup />} />
         <Route path="/login" exact element={<Login />} />
         <Route path="/" element={<Navigate replace to="/login" />} />
-        <Route path='reporter' element={<Reporternav />}>
-          <Route index element={<Newreports />} />
-          <Route path='report-new' element={<Newreports />} />
-          <Route path='from-users' element={<Fromusers />} />
-          <Route path='previous-requests' element={<Sentreq />} />
-        </Route>
-        <Route path='admin' element={<Adminnav />}>
-          <Route index element={<Deployment />} />
-          <Route path='deployment' element={<Deployment />} />
-          <Route path='current-request' element={<Current />} />
-          <Route path='register-new' element={<Register />} />
-        </Route>
-        <Route path='developer' element={<Developernav />}>
-          <Route index element={<Patches />} />
-          <Route path='requests' element={<Patches />} />
-        </Route>
-        <Route path='quality' element={<Qualitynav />}>
-          <Route index element={<Verification />} />
-          <Route path='check' element={<Verification />} />
-        </Route>
         <Route path='*' element={<Error />} />
       </Routes>
     </BrowserRouter>

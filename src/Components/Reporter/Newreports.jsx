@@ -57,7 +57,7 @@ export default function Newreports() {
             const result = await window.contract.methods.toAdmin(date_rn, bugsArray, featuresArray).send({ from: account });
             console.log("Transaction details: ", result);
             for (let j in result) {
-                console.log(j, " : ", result[j]);
+                console.log(j, " : ", result[j], " (", typeof (result[j]), ")");
             }
             document.getElementById("submit_button").innerHTML = "SUBMITTED SUCCESSFULLY"
             document.getElementById("selected_bugs").innerHTML = "NONE"
