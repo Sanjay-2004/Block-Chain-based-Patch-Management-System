@@ -2,6 +2,12 @@ import React from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 
 export default function Qualitynav() {
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        window.location.href = "/login/";
+    };
+
     return (
         <>
 
@@ -30,7 +36,7 @@ export default function Qualitynav() {
                                         <li>
                                             <hr className="dropdown-divider" />
                                         </li>
-                                        <li><NavLink className="dropdown-item text-dark bg-white" to="/">Log Out</NavLink></li>
+                                        <li><NavLink className="dropdown-item text-dark bg-white" onClick={handleLogout}>Log Out</NavLink></li>
                                     </ul>
                                 </div>
                             </li>

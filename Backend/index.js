@@ -13,8 +13,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.use("/create-bug", bugsRouter);
-app.use("/bug-reports", bugsRouter);
+app.use("/bugs", bugsRouter);
 app.use("/signup", userRouter);
 app.use("/login", authRouter);
 app.use("/register", employeeRouter);

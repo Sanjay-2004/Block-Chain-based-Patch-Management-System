@@ -36,23 +36,20 @@ export default function Adminnav() {
                                         aria-expanded="false">
                                         <i className="fa-regular fa-user"></i>
                                     </button>
-                                    <ul className="dropdown-menu">
-                                        <li><NavLink className="dropdown-item text-dark bg-white" to="/">Profile</NavLink></li>
-                                        <li><NavLink className="dropdown-item text-dark bg-white" to="/transactions">Transactions</NavLink></li>
-                                        <li><NavLink className="dropdown-item text-dark bg-white" to="/">Settings</NavLink></li>
-                                        <li>
-                                            <hr className="dropdown-divider" />
-                                        </li>
-                                        <li>
-                                            <NavLink className="dropdown-item text-dark bg-white" onClick={handleLogout}>Log Out</NavLink>
-                                        </li>
+                                    <ul className="dropdown-menu bg-light">
+                                        <li><NavLink className="dropdown-item" to="/profile">Profile</NavLink></li>
+                                        <li><NavLink className="dropdown-item" to="/transactions">Transactions</NavLink></li>
+                                        <li><NavLink className="dropdown-item" to="/settings">Settings</NavLink></li>
+                                        <li><hr className="dropdown-divider" /></li>
+                                        <li><NavLink className="dropdown-item bg-light text-dark" onClick={handleLogout}>Log Out</NavLink></li>
                                     </ul>
+
                                 </div>
                             </li>
                         </ul>
                     </div>
                 </div>
-            </nav><Outlet />
+            </nav > <Outlet />
         </>
 
     )

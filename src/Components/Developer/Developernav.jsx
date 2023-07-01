@@ -3,6 +3,11 @@ import { NavLink, Outlet } from 'react-router-dom'
 
 export default function Developernav() {
 
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        window.location.href = "/login/";
+    };
+
     return (
         <>
             <nav className="navbar bg-dark navbar-expand-lg  bg-body-tertiary py-2" data-bs-theme="dark">
@@ -30,7 +35,7 @@ export default function Developernav() {
                                         <li>
                                             <hr className="dropdown-divider" />
                                         </li>
-                                        <li><NavLink className="dropdown-item text-dark bg-white" to="/">Log Out</NavLink></li>
+                                        <li><NavLink className="dropdown-item text-dark bg-white" onClick={handleLogout}>Log Out</NavLink></li>
                                     </ul>
                                 </div>
                             </li>

@@ -10,7 +10,7 @@ router.post("/", async (req, res) => {
   try {
     const { error } = validate(req.body);
     if (error) {
-      console.log("Validation Error:", error);
+      //console.log("Validation Error:", error);
       return res.status(400).send({ message: error.details[0].message });
     }
 
@@ -18,13 +18,13 @@ router.post("/", async (req, res) => {
     let userType = "user";
     let userRole = null;
 
-    console.log("User found in User collection:", user);
+    //console.log("User found in User collection:", user);
 
     if (!user) {
       user = await Employee.findOne({ email: req.body.email });
       userType = "employee";
       if (user) userRole = user.role;
-      console.log("User found in Employee collection:", user);
+      //console.log("User found in Employee collection:", user);
     }
 
     if (!user) return res.status(401).send({ message: "Invalid Email" });
@@ -33,20 +33,20 @@ router.post("/", async (req, res) => {
       req.body.password,
       user.password
     );
-    console.log("Valid Password:", validPassword);
+    //console.log("Valid Password:", validPassword);
 
     if (!validPassword)
       return res.status(401).send({ message: "Invalid Password" });
 
     const tokenPayload = { _id: user._id, email: user.email, role: user.role };
 
-    console.log("Token Payload:", tokenPayload);
+    //console.log("Token Payload:", tokenPayload);
 
     const token = generateAuthToken(tokenPayload);
-    console.log("Generated Token:", token);
+    //console.log("Generated Token:", token);
     res.status(200).send({ data: token, message: "Logged in successfully" });
   } catch (error) {
-    console.log("Error:", error);
+    //console.log("Error:", error);
     res.status(500).send({ message: "Internal Server Error" });
   }
 });
