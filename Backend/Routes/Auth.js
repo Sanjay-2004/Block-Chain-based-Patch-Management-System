@@ -39,14 +39,13 @@ router.post("/", async (req, res) => {
       return res.status(401).send({ message: "Invalid Password" });
 
     const tokenPayload = { _id: user._id, email: user.email, role: user.role };
-
     //console.log("Token Payload:", tokenPayload);
 
     const token = generateAuthToken(tokenPayload);
     //console.log("Generated Token:", token);
     res.status(200).send({ data: token, message: "Logged in successfully" });
   } catch (error) {
-    //console.log("Error:", error);
+    console.log("Error:", error);
     res.status(500).send({ message: "Internal Server Error" });
   }
 });

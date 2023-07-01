@@ -2,10 +2,12 @@ import React from 'react'
 import { ABI, Address } from '../Solidity'
 import '../Styles.css'
 import Web3 from 'web3';
+import axios from 'axios';
 
 export default function Newreports() {
     let account;
     let bugsArray = [], featuresArray = [];
+
     const addBug = () => {
         let bugTitle = document.getElementById("bug-title").value;
         let bugDescription = document.getElementById("bug-description").value;
@@ -56,8 +58,22 @@ export default function Newreports() {
             window.contract = await new window.web3.eth.Contract(ABI, Address);
             const result = await window.contract.methods.toAdmin(date_rn, bugsArray, featuresArray).send({ from: account });
             console.log("Transaction details: ", result);
-            for (let j in result) {
-                console.log(j, " : ", result[j], " (", typeof (result[j]), ")");
+            const transactionData = {
+                token: localStorage.getItem('token'), // Assuming the email is stored in localStorage
+                transactionHash: result.transactionHash,
+                blockHash: result.blockHash,
+                sender: result.from,
+                receiver: result.to,
+                blockNumber: result.blockNumber,
+                gasUsed: result.gasUsed,
+            };
+
+            try {
+                const url = 'http://localhost:8080/transactions'
+                await axios.post(url, transactionData);
+                console.log('Transaction saved successfully');
+            } catch (error) {
+                console.log('Error saving transaction:', error);
             }
             document.getElementById("submit_button").innerHTML = "SUBMITTED SUCCESSFULLY"
             document.getElementById("selected_bugs").innerHTML = "NONE"

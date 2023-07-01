@@ -8,6 +8,7 @@ import bugsRouter from "./Routes/Bugs.js";
 import userRouter from "./Routes/Users.js";
 import authRouter from "./Routes/Auth.js";
 import employeeRouter from "./Routes/Employees.js";
+import transactionRouter from "./Routes/Transactions.js";
 
 const app = express();
 app.use(express.json());
@@ -17,6 +18,7 @@ app.use("/bugs", bugsRouter);
 app.use("/signup", userRouter);
 app.use("/login", authRouter);
 app.use("/register", employeeRouter);
+app.use("/transactions", transactionRouter);
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
