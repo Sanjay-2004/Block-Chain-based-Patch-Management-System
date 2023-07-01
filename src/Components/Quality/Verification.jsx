@@ -3,6 +3,7 @@ import { ABI, Address } from '../Solidity'
 import Web3 from 'web3';
 import { Web3Storage } from 'web3.storage';
 import $ from 'jquery';
+import axios from 'axios';
 
 export default function Verification() {
 
@@ -13,10 +14,6 @@ export default function Verification() {
   const client = new Web3Storage({
     token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDY3OGUyNDU5OTRFNjM2NjU1ODE0YzZDNTM5OTU2MUMxYjM4MGY0QjUiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2ODc5NDQzMjI4MjQsIm5hbWUiOiJCbG9ja0NoYWluUGF0Y2hNYW5hZ2VtZW50In0.aYtIAHBZgV13SieJ5rY4ol319uT3po6SPvcJfhrNgK0"
   });
-
-  const deleteFile = async (cid) => {
-    await client.delete(cid);
-  }
 
   const verified = async (i) => {
     if (window.ethereum !== "undefined") {
@@ -38,7 +35,22 @@ export default function Verification() {
       console.log(date_rn)
       console.log(typeof (stat))
       console.log(pname)
-      await window.contract.methods.approval(date_rn, stat, pname).send({ from: account });
+      const result = await window.contract.methods.approval(date_rn, stat, pname).send({ from: account });
+      const transactionData = {
+        ...result,
+        token: localStorage.getItem('token'),
+      };
+      if (stat == 1)
+        transactionData.transactionDone = "Patch Approved"
+      else
+        transactionData.transactionDone = "Patch Rejected"
+      try {
+        const url = 'http://localhost:8080/transactions'
+        await axios.post(url, transactionData);
+        console.log('Transaction saved successfully');
+      } catch (error) {
+        console.log('Error saving transaction:', error);
+      }
       document.getElementById(`deployed${i}`).innerHTML = "SENT SUCCESSFULLY"
 
     }

@@ -3,6 +3,8 @@ import { ABI, Address } from '../Solidity'
 import Web3 from 'web3';
 import { Web3Storage } from 'web3.storage';
 import $ from 'jquery';
+import axios from 'axios';
+
 export default function Deployment() {
 
     let account, data;
@@ -13,13 +15,26 @@ export default function Deployment() {
 
     const deploynow = async (i) => {
         if (window.ethereum !== "undefined") {
-            window.web3 = await new Web3(window.ethereum);
+            window.web3 = new Web3(window.ethereum);
             window.contract = await new window.web3.eth.Contract(ABI, Address);
             let pname = data[i].patchName
             let arr = new Date().toString().split(" ");
             let date_rn = arr[2] + " " + arr[1] + " " + arr[3] + " " + arr[4] + " " + arr[5];
             let k = true;
-            await window.contract.methods.deployment(date_rn, pname, k).send({ from: account });
+            const result = await window.contract.methods.deployment(date_rn, pname, k).send({ from: account });
+            const transactionData = {
+                ...result,
+                token: localStorage.getItem('token'),
+                transactionDone: "Latest Patch Deployed"
+            };
+
+            try {
+                const url = 'http://localhost:8080/transactions'
+                await axios.post(url, transactionData);
+                console.log('Transaction saved successfully');
+            } catch (error) {
+                console.log('Error saving transaction:', error);
+            }
             document.getElementById(`deployed${i}`).innerHTML = `DEPLOYED`
         }
 

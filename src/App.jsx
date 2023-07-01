@@ -44,7 +44,7 @@ export default function App() {
           </Route>
         )}
 
-        {role === 'Quality' && (
+        {role === 'Quality Analyst' && (
           <Route path="/" element={<Qualitynav />}>
             <Route index element={<Verification />} />
             <Route path='check' element={<Verification />} />

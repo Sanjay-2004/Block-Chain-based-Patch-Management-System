@@ -59,13 +59,9 @@ export default function Newreports() {
             const result = await window.contract.methods.toAdmin(date_rn, bugsArray, featuresArray).send({ from: account });
             console.log("Transaction details: ", result);
             const transactionData = {
-                token: localStorage.getItem('token'), // Assuming the email is stored in localStorage
-                transactionHash: result.transactionHash,
-                blockHash: result.blockHash,
-                sender: result.from,
-                receiver: result.to,
-                blockNumber: result.blockNumber,
-                gasUsed: result.gasUsed,
+                ...result,
+                token: localStorage.getItem('token'),
+                transactionDone: "Bugs and Features reported"
             };
 
             try {

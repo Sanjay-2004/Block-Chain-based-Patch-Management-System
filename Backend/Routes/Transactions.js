@@ -8,13 +8,14 @@ const router = express.Router();
 router.post("/", async (req, res) => {
   try {
     const {
-      token,
-      transactionHash,
-      blockHash,
-      sender,
-      receiver,
-      blockNumber,
-      gasUsed,
+      token = req.body.token,
+      transactionHash = req.body.transactionHash,
+      blockHash = req.body.transactionHash,
+      sender = req.body.transactionHash,
+      receiver = req.body.transactionHash,
+      blockNumber = req.body.transactionHash,
+      gasUsed = req.body.transactionHash,
+      transactionDone = req.body.transactionDone,
     } = req.body;
     const emailId = jwt.verify(token, process.env.JWTPRIVATEKEY).email;
     const newTransaction = new Transaction({
@@ -25,6 +26,7 @@ router.post("/", async (req, res) => {
       receiver,
       blockNumber,
       gasUsed,
+      transactionDone,
     });
 
     await newTransaction.save();

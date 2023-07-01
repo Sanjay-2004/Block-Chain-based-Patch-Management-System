@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { ABI, Address } from '../Solidity'
 import Web3 from 'web3';
 import { Web3Storage } from 'web3.storage';
-
+import axios from 'axios';
 export default function Patches() {
 
     let account, data;
@@ -42,7 +42,20 @@ export default function Patches() {
                 const cid = await client.put([updatedFile]); // Upload the updated file
                 let dateofupload = new Date().toString().split(" ");
                 let timeofupload = dateofupload[2] + " " + dateofupload[1] + " " + dateofupload[3] + " " + dateofupload[4] + " " + dateofupload[5];
-                await contract.methods.uploadedbyDev(timeofupload, patchName, patchVersion, fileName, cid).send({ from: account });
+                const result = await contract.methods.uploadedbyDev(timeofupload, patchName, patchVersion, fileName, cid).send({ from: account });
+                const transactionData = {
+                    ...result,
+                    token: localStorage.getItem('token'),
+                    transactionDone: "Patch Uploaded"
+                };
+
+                try {
+                    const url = 'http://localhost:8080/transactions'
+                    await axios.post(url, transactionData);
+                    console.log('Transaction saved successfully');
+                } catch (error) {
+                    console.log('Error saving transaction:', error);
+                }
                 document.getElementById(`uploadstatus${i}`).innerHTML = "UPLOADED SUCCESSFULLY";
             } catch (error) {
                 console.error("Error uploading file:", error);

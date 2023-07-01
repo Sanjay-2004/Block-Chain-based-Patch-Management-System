@@ -8,6 +8,8 @@ const transactionSchema = new mongoose.Schema({
   receiver: { type: String, required: true },
   blockNumber: { type: Number, required: true },
   gasUsed: { type: Number, required: true },
+  transactionDone: { type: String, required: true },
+  date: { type: Date, default: Date.now },
 });
 
 const Transaction = mongoose.model(

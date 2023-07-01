@@ -3,6 +3,7 @@ import { ABI, Address } from '../Solidity'
 import Web3 from 'web3';
 import '../Styles.css'
 import $ from 'jquery';
+import axios from 'axios';
 
 export default function Current() {
 
@@ -105,9 +106,8 @@ export default function Current() {
     if (window.ethereum !== "undefined") {
       let accounts = await ethereum.request({ method: "eth_requestAccounts" });
       account = accounts[0]
-      window.web3 = await new Web3(window.ethereum);
+      window.web3 = new Web3(window.ethereum);
       window.contract = await new window.web3.eth.Contract(ABI, Address);
-      // if(account=="0x88834dd8708c72a00c562e093f9ba181f060186a"){
       let arrayb = [];
       $("input:checkbox[name=bugs_dev]:checked").each(function () {
         let temp = $(this).val()
@@ -137,18 +137,21 @@ export default function Current() {
         let f_arr = temp.split(",");
         arrayfUn.push(f_arr);
       });
-      // unchecked();
-      await window.contract.methods.fromAdmin(date_rn, timeOfDev, pname, pdesc, arrayb, arrayf, arraybUn, arrayfUn).send({ from: account });
+      const result = await window.contract.methods.fromAdmin(date_rn, timeOfDev, pname, pdesc, arrayb, arrayf, arraybUn, arrayfUn).send({ from: account });
+      const transactionData = {
+        ...result,
+        token: localStorage.getItem('token'),
+        transactionDone: "New Patch Requested"
+      };
+
+      try {
+        const url = 'http://localhost:8080/transactions'
+        await axios.post(url, transactionData);
+        console.log('Transaction saved successfully');
+      } catch (error) {
+        console.log('Error saving transaction:', error);
+      }
       document.getElementById("sent_req").innerHTML = "SENT SUCCESSFULLY"
-      // } else{
-      // 	document.getElementById("adminacc").innerHTML =
-      // 	`<div className="alert alert-danger" >
-      // 		<center>WRONG ACCOUNT, PLEASE CHECK</center>
-      // 	</div>`
-      // 		setTimeout(()=>{
-      // 			document.getElementById("adminacc").innerHTML = `<button className="btn btn-secondary" onclick="sendtoDev()">REQUEST PATCH</button>`
-      // 		},5000)
-      // }
     }
   }
 
