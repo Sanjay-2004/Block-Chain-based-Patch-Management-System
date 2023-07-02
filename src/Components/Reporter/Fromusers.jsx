@@ -25,7 +25,6 @@ export default function FromUsers() {
     try {
       await axios.put(`http://localhost:8080/bugs/${bugId}`, { okbyReporter: isChecked });
 
-      // Refresh the bug reports after an update
       fetchBugReports();
     } catch (error) {
       console.error('Error updating bug report:', error);
@@ -36,7 +35,7 @@ export default function FromUsers() {
     <div className="d-flex m-3">
       <div className="w-50">
         <h2>NEW BUGS:</h2>
-        <ul className="list-group mt-2" id="bugsByUsers">
+        <ul className="list-group my-2" id="bugsByUsers">
           {bugReports
             .filter((bug) => !bug.okbyReporter)
             .map((bug) => (
@@ -60,7 +59,7 @@ export default function FromUsers() {
       </div>
       <div className="w-50">
         <h2>RESOLVED:</h2>
-        <ul className="list-group mt-2" id="resolvedBugs">
+        <ul className="list-group my-2" id="resolvedBugs">
           {bugReports
             .filter((bug) => bug.okbyReporter)
             .map((bug) => (
