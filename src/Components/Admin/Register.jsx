@@ -32,7 +32,7 @@ export default function Register() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const url = 'http://localhost:8080/register';
+            const url = 'http://localhost:8080/employees';
             const res = await axios.post(url, data);
             setData(initialState);
             setError("")

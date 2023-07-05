@@ -18,7 +18,7 @@ app.use(cors());
 app.use("/bugs", bugsRouter);
 app.use("/signup", userRouter);
 app.use("/login", authRouter);
-app.use("/register", employeeRouter);
+app.use("/employees", employeeRouter);
 app.use("/transactions", transactionRouter);
 app.use("/verification", verificationRouter);
 

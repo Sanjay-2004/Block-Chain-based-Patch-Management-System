@@ -11,7 +11,7 @@ router
       const bug = await Bug.create({ email, bugDescription });
 
       if (bug) {
-        console.log("Bug submitted:", bug);
+        //console.log("Bug submitted:", bug);
         res.send({
           status: "Successful",
         });
@@ -27,7 +27,7 @@ router
   .get(async (req, res) => {
     try {
       const bugReports = await Bug.find().sort({ date: -1 });
-      console.log("Bug reports fetched:", bugReports);
+      //console.log("Bug reports fetched:", bugReports);
       res.json(bugReports);
     } catch (error) {
       console.error("Error fetching bug reports:", error);
@@ -45,7 +45,7 @@ router
         { new: true }
       );
       if (bug) {
-        console.log("Bug report updated:", bug);
+        //console.log("Bug report updated:", bug);
         res.sendStatus(200);
       } else {
         console.error("Bug report not found");

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Link, NavLink, Outlet } from 'react-router-dom'
+import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import axios from 'axios';
 
 export default function Developernav() {
     const [showAlert, setShowAlert] = useState(false);
+    const location = useLocation();
 
     const checkVerification = async () => {
         try {
@@ -30,6 +31,8 @@ export default function Developernav() {
         localStorage.removeItem("token");
         window.location.href = "/login/";
     };
+
+    const isProfilePage = location.pathname === '/profile';
 
     return (
         <>
@@ -66,7 +69,7 @@ export default function Developernav() {
                         </ul>
                     </div>
                 </div>
-            </nav> {showAlert && (
+            </nav> {!isProfilePage && showAlert && (
                 <div className="alert alert-danger alert-dismissible fade show" role="alert">
                     Please go to your profile section and change your password.
                     <Link to="/profile" className="ms-2 btn btn-sm btn-warning">

@@ -25,4 +25,21 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.get("/", async (req, res) => {
+  try {
+    const token = req.body.token;
+    const emailID = jwt.verify(token, process.env.JWTPRIVATEKEY).email;
+
+    const userDetails = await User.findOne({ email: emailID });
+    if (userDetails) {
+      res.json(userDetails);
+    } else {
+      return res.status(404).send({ message: "User not found" });
+    }
+  } catch (error) {
+    //console.log("Error:", error);
+    res.status(500).send({ message: "Internal Server Error" });
+  }
+});
+
 export default router;

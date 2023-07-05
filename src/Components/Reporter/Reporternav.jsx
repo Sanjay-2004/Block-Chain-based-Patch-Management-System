@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Link, NavLink, Outlet } from 'react-router-dom'
+import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import axios from 'axios';
 
 export default function Reporternav() {
     const [showAlert, setShowAlert] = useState(false);
+    const location = useLocation();
 
     const checkVerification = async () => {
         try {
@@ -30,6 +31,8 @@ export default function Reporternav() {
         localStorage.removeItem("token");
         window.location.href = "/login/";
     };
+
+    const isProfilePage = location.pathname === '/profile';
 
     return (
         <>
@@ -59,9 +62,8 @@ export default function Reporternav() {
                                         <i className="fa-regular fa-user" ></i>
                                     </button>
                                     <ul className="dropdown-menu">
-                                        <li><NavLink className="dropdown-item text-dark bg-white" to="/">Profile</NavLink></li>
-                                        <li><NavLink className="dropdown-item " to="/transactions">Transactions</NavLink></li>
-                                        <li><NavLink className="dropdown-item text-dark bg-white" to="/">Settings</NavLink></li>
+                                        <li><NavLink className="dropdown-item text-dark bg-white" to="/profile">Profile</NavLink></li>
+                                        <li><NavLink className="dropdown-item text-dark bg-white" to="/transactions">Transactions</NavLink></li>
                                         <li>
                                             <hr className="dropdown-divider" />
                                         </li>
@@ -72,7 +74,7 @@ export default function Reporternav() {
                         </ul>
                     </div>
                 </div>
-            </nav> {showAlert && (
+            </nav> {!isProfilePage && showAlert && (
                 <div className="alert alert-danger alert-dismissible fade show" role="alert">
                     Please go to your profile section and change your password.
                     <Link to="/profile" className="ms-2 btn btn-sm btn-warning">
