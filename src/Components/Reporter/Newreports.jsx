@@ -1,5 +1,5 @@
 import React from 'react'
-import { ABI, Address } from '../Solidity'
+import { ABI, Address } from '../Common/Solidity'
 import '../Styles.css'
 import Web3 from 'web3';
 import axios from 'axios';

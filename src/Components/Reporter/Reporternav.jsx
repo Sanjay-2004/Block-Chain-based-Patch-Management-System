@@ -1,7 +1,30 @@
-import React from 'react'
-import { NavLink, Outlet } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, NavLink, Outlet } from 'react-router-dom'
+import axios from 'axios';
 
 export default function Reporternav() {
+    const [showAlert, setShowAlert] = useState(false);
+
+    const checkVerification = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            console.log(token)
+            const response = await axios.get("http://localhost:8080/verification", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            if (response.status === 200) {
+                setShowAlert(true);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+    useEffect(() => {
+        checkVerification();
+    }, [])
 
     const handleLogout = () => {
         localStorage.removeItem("token");
@@ -37,6 +60,7 @@ export default function Reporternav() {
                                     </button>
                                     <ul className="dropdown-menu">
                                         <li><NavLink className="dropdown-item text-dark bg-white" to="/">Profile</NavLink></li>
+                                        <li><NavLink className="dropdown-item " to="/transactions">Transactions</NavLink></li>
                                         <li><NavLink className="dropdown-item text-dark bg-white" to="/">Settings</NavLink></li>
                                         <li>
                                             <hr className="dropdown-divider" />
@@ -48,7 +72,15 @@ export default function Reporternav() {
                         </ul>
                     </div>
                 </div>
-            </nav><Outlet />
+            </nav> {showAlert && (
+                <div className="alert alert-danger alert-dismissible fade show" role="alert">
+                    Please go to your profile section and change your password.
+                    <Link to="/profile" className="ms-2 btn btn-sm btn-warning">
+                        Go to Profile
+                    </Link>
+                    <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            )}<Outlet />
         </>
 
     )

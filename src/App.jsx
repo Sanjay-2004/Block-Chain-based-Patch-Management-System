@@ -15,10 +15,12 @@ import Developernav from './Components/Developer/Developernav'
 import Patches from './Components/Developer/Patches'
 import Qualitynav from './Components/Quality/Qualitynav'
 import Verification from './Components/Quality/Verification'
-import Signup from './Components/Basics/Signup'
-import Login from './Components/Basics/Login'
+import Signup from './Components/Common/Signup'
+import Login from './Components/Common/Login'
 import Error from './Components/Error'
 import Register from './Components/Admin/Register'
+import Transaction from './Components/Common/Transaction';
+import Profile from './Components/Common/Profile';
 
 export default function App() {
   const token = localStorage.getItem('token');
@@ -32,6 +34,8 @@ export default function App() {
           <Route path="/" element={<Developernav />}>
             <Route index element={<Patches />} />
             <Route path='requests' element={<Patches />} />
+            <Route path='transactions' element={<Transaction />} />
+            <Route path='profile' element={<Profile />} />
           </Route>
         )}
 
@@ -41,6 +45,8 @@ export default function App() {
             <Route path='deployment' element={<Deployment />} />
             <Route path='current-request' element={<Current />} />
             <Route path='register-new' element={<Register />} />
+            <Route path='transactions' element={<Transaction />} />
+            <Route path='profile' element={<Profile />} />
           </Route>
         )}
 
@@ -48,6 +54,8 @@ export default function App() {
           <Route path="/" element={<Qualitynav />}>
             <Route index element={<Verification />} />
             <Route path='check' element={<Verification />} />
+            <Route path='transactions' element={<Transaction />} />
+            <Route path='profile' element={<Profile />} />
           </Route>
         )}
 
@@ -57,6 +65,8 @@ export default function App() {
             <Route path='report-new' element={<Newreports />} />
             <Route path='from-users' element={<Fromusers />} />
             <Route path='previous-requests' element={<Sentreq />} />
+            <Route path='transactions' element={<Transaction />} />
+            <Route path='profile' element={<Profile />} />
           </Route>
         )}
 
@@ -65,6 +75,7 @@ export default function App() {
             <Route index element={<Report />} />
             <Route path='report' element={<Report />} />
             <Route path='updates' element={<Update />} />
+            <Route path='profile' element={<Profile />} />
           </Route>
         )}
 

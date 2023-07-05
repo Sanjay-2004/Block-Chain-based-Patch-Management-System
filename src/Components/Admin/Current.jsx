@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { ABI, Address } from '../Solidity'
+import { ABI, Address } from '../Common/Solidity'
 import Web3 from 'web3';
 import '../Styles.css'
 import $ from 'jquery';
@@ -147,6 +147,7 @@ export default function Current() {
       try {
         const url = 'http://localhost:8080/transactions'
         await axios.post(url, transactionData);
+        console.log(result)
         console.log('Transaction saved successfully');
       } catch (error) {
         console.log('Error saving transaction:', error);

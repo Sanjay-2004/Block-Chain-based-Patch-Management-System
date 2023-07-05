@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { ABI, Address } from '../Solidity';
+import { ABI, Address } from '../Common/Solidity';
 import Web3 from 'web3';
 import $ from 'jquery';
 import { Web3Storage } from 'web3.storage';
