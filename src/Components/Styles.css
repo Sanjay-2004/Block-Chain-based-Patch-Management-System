@@ -1,7 +1,29 @@
-nav{
-    color: #fff;
+nav {
+  color: #fff;
 }
 
-#bug-description, #feature-description, #patch-description{
-    height: 150px;
+#bug-description,
+#feature-description,
+#patch-description {
+  height: 150px;
+}
+
+.profile-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-detail {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+
+.profile-key {
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+.profile-value {
+  flex-grow: 1;
 }

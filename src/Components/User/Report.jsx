@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 export default function Report() {
   const [email, setEmail] = useState('');
@@ -8,25 +9,14 @@ export default function Report() {
     const bugData = { email, bugDescription };
 
     try {
-      await fetch('http://localhost:8080/create-bug', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(bugData),
-      })
-        .then(
-          response => response.json()
-        ).then(
-          data => {
-            if (data.status) {
-              const k = document.getElementById('submitted');
-              k.innerHTML = `BUG SENT SUCCESSFULLY<br>THANK YOU`;
-              setEmail('');
-              setBugDescription('');
-            }
-          }
-        );
+      const response = await axios.post('http://localhost:8080/bugs', bugData);
+
+      if (response.data.status) {
+        const k = document.getElementById('submitted');
+        k.innerHTML = `BUG SENT SUCCESSFULLY<br>THANK YOU`;
+        setEmail('');
+        setBugDescription('');
+      }
     } catch (error) {
       console.error('Error submitting bug:', error);
     }

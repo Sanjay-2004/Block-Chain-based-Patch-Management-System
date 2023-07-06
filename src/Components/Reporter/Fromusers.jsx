@@ -31,45 +31,50 @@ export default function FromUsers() {
     }
   };
 
+
   return (
-    <div className="d-flex m-3">
-      <div className="w-50">
-        <h2>NEW BUGS:</h2>
-        <ul className="list-group my-2" id="bugsByUsers">
-          {bugReports
-            .filter((bug) => !bug.okbyReporter)
-            .map((bug) => (
-              <li className="list-group-item" key={bug._id}>
-                <strong>Email:</strong> {bug.email}
-                <br />
-                <strong>Bug Description:</strong> {bug.bugDescription}
-                <br />
-                <label>
-                  Mark as resolved:
-                  <input
-                    className="ms-2"
-                    type="checkbox"
-                    checked={bug.okbyReporter}
-                    onChange={(event) => handleCheckboxChange(event, bug._id)}
-                  />
-                </label>
-              </li>
-            ))}
-        </ul>
-      </div>
-      <div className="w-50">
-        <h2>RESOLVED:</h2>
-        <ul className="list-group my-2" id="resolvedBugs">
-          {bugReports
-            .filter((bug) => bug.okbyReporter)
-            .map((bug) => (
-              <li className="list-group-item" key={bug._id}>
-                <strong>Email:</strong> {bug.email}
-                <br />
-                <strong>Bug Description:</strong> {bug.bugDescription}
-              </li>
-            ))}
-        </ul>
+    <div className="container">
+      <div className="row">
+        <div className="col-md-6">
+          <h2>NEW BUGS:</h2>
+          <ul className="list-group my-2" id="bugsByUsers">
+            {bugReports
+              .filter((bug) => !bug.okbyReporter)
+              .map((bug) => (
+                <li className="list-group-item" key={bug._id}>
+                  <strong>Email:</strong> {bug.email}
+                  <br />
+                  <strong>Bug Description:</strong> {bug.bugDescription}
+                  <br />
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      checked={bug.okbyReporter}
+                      onChange={(event) => handleCheckboxChange(event, bug._id)}
+                    />
+                    <label className="form-check-label">
+                      Mark as resolved
+                    </label>
+                  </div>
+                </li>
+              ))}
+          </ul>
+        </div>
+        <div className="col-md-6">
+          <h2>RESOLVED:</h2>
+          <ul className="list-group my-2" id="resolvedBugs">
+            {bugReports
+              .filter((bug) => bug.okbyReporter)
+              .map((bug) => (
+                <li className="list-group-item" key={bug._id}>
+                  <strong>Email:</strong> {bug.email}
+                  <br />
+                  <strong>Bug Description:</strong> {bug.bugDescription}
+                </li>
+              ))}
+          </ul>
+        </div>
       </div>
     </div>
   );

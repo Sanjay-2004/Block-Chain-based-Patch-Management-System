@@ -33,28 +33,28 @@ router
       console.error("Error fetching bug reports:", error);
       res.sendStatus(500);
     }
-  })
-  .put(async (req, res) => {
-    try {
-      const { id } = req.params;
-      const { okbyReporter } = req.body;
-
-      const bug = await Bug.findByIdAndUpdate(
-        id,
-        { okbyReporter },
-        { new: true }
-      );
-      if (bug) {
-        //console.log("Bug report updated:", bug);
-        res.sendStatus(200);
-      } else {
-        console.error("Bug report not found");
-        res.sendStatus(404);
-      }
-    } catch (error) {
-      console.error("Error updating bug report:", error);
-      res.sendStatus(500);
-    }
   });
+
+router.put("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { okbyReporter } = req.body;
+
+    const bug = await Bug.findByIdAndUpdate(
+      id,
+      { okbyReporter },
+      { new: true }
+    );
+    if (bug) {
+      res.sendStatus(200);
+    } else {
+      console.error("Bug report not found");
+      res.sendStatus(404);
+    }
+  } catch (error) {
+    console.error("Error updating bug report:", error);
+    res.sendStatus(500);
+  }
+});
 
 export default router;
