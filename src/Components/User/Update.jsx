@@ -25,7 +25,7 @@ export default function Update() {
       account = accounts[0];
       window.web3 = await new Web3(window.ethereum);
       window.contract = await new window.web3.eth.Contract(ABI, Address);
-      dat = await window.contract.methods.getfromDev().call();
+      dat = await window.contract.methods.getRequests().call();
 
       for (let i = dat.length - 1; i >= 0; i--) {
         let temp = dat[i];

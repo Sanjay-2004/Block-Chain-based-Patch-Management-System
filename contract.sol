@@ -116,6 +116,8 @@ contract PatchDevelopment{
     }
 
     // Developer uses this function to see what came from admin
+    // Used by QA to see the patches uploaded by Developer
+    // Also used by the Admin before deployment
     function getRequests() public view returns (listOfBnF[] memory) {
         listOfBnF[] memory result = new listOfBnF[](patchnames.length);
 
@@ -137,17 +139,6 @@ contract PatchDevelopment{
         temp.uploaded = 1;
     }
 
-    // Used by QA to see the patches uploaded by Developer
-    // Also used by the Admin before deployment
-    function getfromDev() public view returns (listOfBnF[] memory) {
-        listOfBnF[] memory result = new listOfBnF[](patchnames.length);
-
-        for (uint i = 0; i < patchnames.length; i++) {   
-            result[i] = requests[patchnames[i]];
-        }
-
-        return result;
-    }
 
     // Approval given by QA
     function approval(string memory time_rn, int status, string memory pname) public{

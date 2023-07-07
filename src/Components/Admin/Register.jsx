@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Web3 from 'web3';
 
 export default function Register() {
     const initialState = {
@@ -7,6 +8,8 @@ export default function Register() {
         lastName: '',
         email: '',
         password: '',
+        privateKey: '',
+        address: '',
         role: 'Reporter'
     };
 
@@ -27,6 +30,24 @@ export default function Register() {
                 password: updatedPassword
             }));
         }
+
+        if (name === 'privateKey') {
+            try {
+                const web3 = new Web3();
+                const address = web3.eth.accounts.privateKeyToAccount(value).address;
+                setData((prevData) => ({
+                    ...prevData,
+                    address: address
+                }));
+                setError('');
+            } catch (error) {
+                setData((prevData) => ({
+                    ...prevData,
+                    address: ''
+                }));
+                setError('Invalid private key');
+            }
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -35,7 +56,7 @@ export default function Register() {
             const url = 'http://localhost:8080/employees';
             const res = await axios.post(url, data);
             setData(initialState);
-            setError("")
+            setError('');
         } catch (error) {
             if (
                 error.response &&
@@ -104,6 +125,32 @@ export default function Register() {
                 </div>
 
                 <div className="form-floating mb-2">
+                    <input
+                        type="text"
+                        className="form-control"
+                        name="privateKey"
+                        value={data.privateKey}
+                        onChange={handleChange}
+                        id="floatingPrivateKey"
+                        placeholder="Private Key"
+                        required
+                    />
+                    <label htmlFor="floatingPrivateKey">Private Key</label>
+                </div>
+
+                {data.address && (
+                    <div className="alert alert-success mb-2" role="alert">
+                        Ethereum Address: {data.address}
+                    </div>
+                )}
+
+                {error && (
+                    <div className="alert alert-danger mb-2" role="alert">
+                        {error}
+                    </div>
+                )}
+
+                <div className="form-floating mb-2">
                     <select
                         className="form-select"
                         name="role"
@@ -120,11 +167,6 @@ export default function Register() {
                     <label htmlFor="floatingRole">Role</label>
                 </div>
 
-                {error && (
-                    <div className="alert alert-danger" role="alert">
-                        {error}
-                    </div>
-                )}
                 <button className="btn btn-secondary mt-3 w-100 py-2" type="submit">
                     Register
                 </button>

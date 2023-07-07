@@ -43,32 +43,32 @@ router.post("/", async (req, res) => {
     if (error)
       return res.status(400).send({ message: error.details[0].message });
 
-    const employee = await Employee.findOne({ email: req.body.email });
+    const { privateKey, ...employeeData } = req.body; // Exclude privateKey from req.body
+
+    const employee = await Employee.findOne({ email: employeeData.email });
     if (employee)
       return res
         .status(409)
         .send({ message: "Employee with given email already exists" });
 
     const salt = await bcrypt.genSalt(Number(process.env.SALT));
-    const hashPassword = await bcrypt.hash(req.body.password, salt);
+    const hashPassword = await bcrypt.hash(employeeData.password, salt);
     const newEmployee = await new Employee({
-      ...req.body,
+      ...employeeData,
       password: hashPassword,
     }).save();
+
     if (newEmployee) {
       const subject = "WELCOME TO OUR COMPANY";
-      const text = `This is your password: ${req.body.password}`;
+      const text = `This is your password: ${employeeData.password}`;
 
-      sendEmail(req.body.email, subject, text);
+      sendEmail(employeeData.email, subject, text);
 
-      //console.log("Creation Successful");
       res.sendStatus(200);
     } else {
-      //console.log("Error");
       res.sendStatus(500);
     }
   } catch (error) {
-    //console.log("Error: ", error);
     res.status(500).send({ message: "Internal Server Error" });
   }
 });

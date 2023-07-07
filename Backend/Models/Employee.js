@@ -9,6 +9,7 @@ const EmployeeSchema = mongoose.Schema({
   email: { type: String, required: true },
   password: { type: String, required: true },
   role: { type: String, required: true },
+  address: { type: String, required: true },
   verified: { type: Boolean, default: false },
 });
 
@@ -34,6 +35,7 @@ const validate = (data) => {
     firstName: Joi.string().required().label("First Name"),
     lastName: Joi.string().required().label("Last Name"),
     role: Joi.string().required().label("Role"),
+    address: Joi.string().required().label("Address"),
     email: Joi.string().email().required().label("Email"),
     password: passwordComplexity().required().label("Password"),
   });

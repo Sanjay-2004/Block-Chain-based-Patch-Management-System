@@ -17,7 +17,7 @@ export default function Sentreq() {
       account = accounts[0]
       window.web3 = await new Web3(window.ethereum);
       window.contract = await new window.web3.eth.Contract(ABI, Address);
-      data = await window.contract.methods.getfromDev().call();
+      data = await window.contract.methods.getRequests().call();
       let sno = 1;
       for (let i = data.length - 1; i >= 0; i--) {
         let tBody = ``;
