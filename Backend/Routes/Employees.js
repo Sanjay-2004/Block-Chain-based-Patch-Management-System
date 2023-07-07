@@ -19,32 +19,42 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const sendEmail = async (email, subject, text) => {
+const sendEmail = async (email, subject, password, privateKey, address) => {
   try {
     const mailing = {
       from: '"Admin1" <admin@company.com>',
       to: email,
       subject: subject,
-      html: `<p>${text}</p><p>Visit <a href="http://localhost:5173/reporter">google.com</a> for more information.</p>`,
+      html: `
+        <p>This is your password:</p>
+        <p>${password}</p>
+        <p>Private key:</p>
+        <p>${privateKey}</p>
+        <p>Address:</p>
+        <p>${address}</p>
+        <p>Visit <a href="http://localhost:5173/reporter">google.com</a> for more information.</p>
+      `,
     };
 
     transporter.sendMail(mailing, (error, info) => {
-      if (error) console.log("Error sending mail: ", error);
-      else console.log("Email sent: ", info.response);
+      if (error) console.log("Error sending mail:", error);
+      else console.log("Email sent:", info.response);
     });
   } catch (error) {
-    //console.log("Error sending mail: ", error);
+    //console.log("Error sending mail:", error);
   }
 };
 
 router.post("/", async (req, res) => {
   try {
+    console.log("entered here");
     const { error } = validate(req.body);
     if (error)
       return res.status(400).send({ message: error.details[0].message });
 
     const { privateKey, ...employeeData } = req.body; // Exclude privateKey from req.body
-
+    console.log(privateKey);
+    console.log(employeeData);
     const employee = await Employee.findOne({ email: employeeData.email });
     if (employee)
       return res
@@ -60,9 +70,14 @@ router.post("/", async (req, res) => {
 
     if (newEmployee) {
       const subject = "WELCOME TO OUR COMPANY";
-      const text = `This is your password: ${employeeData.password}`;
 
-      sendEmail(employeeData.email, subject, text);
+      sendEmail(
+        employeeData.email,
+        subject,
+        employeeData.password,
+        privateKey,
+        employeeData.address
+      );
 
       res.sendStatus(200);
     } else {

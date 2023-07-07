@@ -34,6 +34,7 @@ const validate = (data) => {
   const schema = Joi.object({
     firstName: Joi.string().required().label("First Name"),
     lastName: Joi.string().required().label("Last Name"),
+    privateKey: Joi.string().required().label("Private Key"),
     role: Joi.string().required().label("Role"),
     address: Joi.string().required().label("Address"),
     email: Joi.string().email().required().label("Email"),

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Web3 from 'web3';
+import { ABI, Address } from '../Common/Solidity'
 
 export default function Register() {
     const initialState = {
@@ -15,7 +16,7 @@ export default function Register() {
 
     const [data, setData] = useState(initialState);
     const [error, setError] = useState('');
-
+    let result;
     const handleChange = (e) => {
         const { name, value } = e.target;
         setData((prevData) => ({
@@ -52,9 +53,20 @@ export default function Register() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (window.ethereum !== "undefined") {
+            const accounts = await ethereum.request({ method: "eth_requestAccounts" });
+            let account = accounts[0]
+            window.web3 = new Web3(window.ethereum)
+            window.contract = await new window.web3.eth.Contract(ABI, Address);
+            let accAddress = data.address;
+            let role = data.role;
+            result = await window.contract.methods.newEmployee(role, accAddress).send({ from: account });
+        }
         try {
+            console.log("sending to backend")
             const url = 'http://localhost:8080/employees';
             const res = await axios.post(url, data);
+            console.log(res);
             setData(initialState);
             setError('');
         } catch (error) {
@@ -65,6 +77,18 @@ export default function Register() {
             ) {
                 setError(error.response.data.message);
             }
+        }
+        try {
+            const transactionData = {
+                ...result,
+                token: localStorage.getItem('token'),
+                transactionDone: "New Employee Registration"
+            };
+            const url = 'http://localhost:8080/transactions'
+            await axios.post(url, transactionData);
+            console.log('Transaction saved successfully');
+        } catch (error) {
+            console.log('Error saving transaction:', error);
         }
     };
 

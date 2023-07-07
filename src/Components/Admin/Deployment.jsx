@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { ABI, Address } from '../Common/Solidity'
 import Web3 from 'web3';
 import { Web3Storage } from 'web3.storage';
