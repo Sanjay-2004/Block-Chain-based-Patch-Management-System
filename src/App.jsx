@@ -27,6 +27,7 @@ export default function App() {
   const decodedToken = token ? jwt_decode(token) : null;
   const role = decodedToken ? decodedToken.role : null;
 
+
   return (
     <BrowserRouter>
       <Routes>

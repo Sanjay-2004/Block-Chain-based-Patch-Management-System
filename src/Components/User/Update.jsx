@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ABI, Address } from '../Common/Solidity';
 import Web3 from 'web3';
 import $ from 'jquery';
@@ -6,95 +6,49 @@ import { Web3Storage } from 'web3.storage';
 
 export default function Update() {
   let account;
-  let data = [];
-  let dat;
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     updates();
   }, []);
 
-  //   const initialiseDataTable = () => {
-  //     if (!$.fn.DataTable.isDataTable('#example')) {
+  const client = new Web3Storage({
+    token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDY3OGUyNDU5OTRFNjM2NjU1ODE0YzZDNTM5OTU2MUMxYjM4MGY0QjUiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2ODc5NDQzMjI4MjQsIm5hbWUiOiJCbG9ja0NoYWluUGF0Y2hNYW5hZ2VtZW50In0.aYtIAHBZgV13SieJ5rY4ol319uT3po6SPvcJfhrNgK0",
+  });
 
-  //     }
-  //   };
+  const getUrl = async (temp) => {
+    const cid = temp.cid;
+    console.log(cid)
+    const res = await client.get(cid);
+    const files = await res.files();
+    const file = files[0];
+    const anchor = document.createElement('a');
+    const url = URL.createObjectURL(file);
+    anchor.href = url;
+    anchor.download = temp.filename;
+    anchor.click();
+    URL.revokeObjectURL(url);
+  }
 
   const updates = async () => {
     if (window.ethereum !== 'undefined') {
       const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
       account = accounts[0];
-      window.web3 = await new Web3(window.ethereum);
+      window.web3 = new Web3(window.ethereum);
       window.contract = await new window.web3.eth.Contract(ABI, Address);
-      dat = await window.contract.methods.getRequests().call();
-
-      for (let i = dat.length - 1; i >= 0; i--) {
-        let temp = dat[i];
-        if (temp.deployed == true) {
-          data.push(temp);
-        }
-      }
-
-
-
-      for (let i = data.length - 1; i >= 0; i--) {
-        let tbody = ``;
-        let temp = data[i];
-        const client = new Web3Storage({
-          token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDY3OGUyNDU5OTRFNjM2NjU1ODE0YzZDNTM5OTU2MUMxYjM4MGY0QjUiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2ODc5NDQzMjI4MjQsIm5hbWUiOiJCbG9ja0NoYWluUGF0Y2hNYW5hZ2VtZW50In0.aYtIAHBZgV13SieJ5rY4ol319uT3po6SPvcJfhrNgK0",
+      const fetchedData = await window.contract.methods.newPatches().call();
+      console.log(fetchedData);
+      console.log(typeof (fetchedData));
+      const reversedData = [...fetchedData].reverse();
+      setData(reversedData);
+      $(function () {
+        $('#example').DataTable({
+          order: [[2, 'desc']],
         });
-        const cid = temp.cid;
-        const res = await client.get(cid);
-        const files = await res.files();
-        const file = files[0];
-        const url = URL.createObjectURL(file);
-        tbody += `
-            <td><center><strong>${temp.patchName}</strong></center></td>
-            <td><center><strong>${temp.vno}</strong></center></td>
-            <td><center>${temp.timeofReport}</center></td>
-            <td><center><button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#desc${i}">
-            WHAT'S NEW
-            </button></center></td>
-            <td><a href="${url}" download="${temp.filename}" class="btn btn-secondary">DOWNLOAD</a></td>`;
-
-        let tr = document.createElement('tr');
-        let bodyy = document.getElementById('released');
-        tr.id = 'row' + i;
-        tr.innerHTML = tbody;
-        bodyy.appendChild(tr);
-      }
-      for (let i = 0; i < data.length; i++) {
-        let temp = data[i]
-        let modd = ``;
-        let dd = temp.patchDescription.split('\n');
-        modd += `<div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="descof${i}">WHAT'S NEW</h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">`
-        for (let j in dd) {
-          modd += `${dd[j]}<br>`
-        }
-        modd += `</div>
-                      </div>
-                    </div>`
-        let div = document.createElement('div');
-        div.setAttribute('class', 'modal fade');
-        div.setAttribute('id', `desc${i}`);
-        div.setAttribute('tabindex', '-1');
-        div.setAttribute('aria-labelledby', `descof${i}`);
-        div.setAttribute('aria-hidden', 'true');
-        let modalsDiv = document.getElementById('modals');
-        div.innerHTML = modd;
-        modalsDiv.appendChild(div);
-      }
+      });
     }
-    // initialiseDataTable();
-    $('#example').DataTable({
-      order: [[2, 'desc']],
-    });
   }
+
 
   return (
     <div>
@@ -110,11 +64,94 @@ export default function Update() {
             </tr>
           </thead>
           <tbody id="released">
-
+            {data.map((temp, i) => {
+              console.log(temp)
+              return (
+                <tr id={`row${i}`} key={i}>
+                  <td><center><button type="button" className="btn btn-secondary" data-bs-toggle="modal" data-bs-target={`#desc${i}`}>{temp.patchName}</button></center></td>
+                  <td><center><strong>{temp.vno}</strong></center></td>
+                  <td><center>{temp.timeofReport}</center></td>
+                  <td><center><button type="button" className="btn btn-secondary" data-bs-toggle="modal" data-bs-target={`#data${i}`}>BUGS & FEATURES</button></center></td>
+                  <td><button onClick={() => { getUrl(temp) }} className="btn btn-secondary">DOWNLOAD</button></td>
+                </tr>
+              )
+            })}
           </tbody>
         </table>
       </div>
       <div id="modals"></div>
+      {data.map((temp, i) => {
+        const bugsDiv = temp.bugRequest.map((temp1, j) => (
+          <li key={j} className="list-group-item list-group-item-action">
+            <div className="d-flex w-100 justify-content-between">
+              <h5 className="mb-1">{temp1[0]}</h5>
+            </div>
+            <p className="mb-1">{temp1[1]}</p>
+            <small>PRIORITY: {temp1[2]}</small>
+          </li>
+        ));
+
+        const featuresDiv = temp.featureRequest.map((temp1, j) => (
+          <li key={j} className="list-group-item list-group-item-action">
+            <div className="d-flex w-100 justify-content-between">
+              <h5 className="mb-1">{temp1[0]}</h5>
+            </div>
+            <p className="mb-1">{temp1[1]}</p>
+            <small>PRIORITY: {temp1[2]}</small>
+          </li>
+        ));
+
+        const dd = temp.patchDescription.split('\n');
+        const desc = dd.map((line, j) => <div key={j}>{line}<br /></div>);
+
+        return (
+          <React.Fragment key={i}>
+            <div className="modal fade" id={`data${i}`} data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby={`data${i}Label`} aria-hidden="true">
+              <div className="modal-dialog">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h1 className="modal-title fs-5" id={`data${i}Label`}>
+                      Bugs and Features Cleared
+                    </h1>
+                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div className="modal-body">
+                    <div className="row mt-3 gx-3">
+                      <div className="col">
+                        <div className="list-group" id={`bugsof${i}`}>
+                          {bugsDiv}
+                        </div>
+                      </div>
+                      <div className="col">
+                        <div className="list-group" id={`featuresof${i}`}>
+                          {featuresDiv}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="modal fade" id={`desc${i}`} data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby={`descof${i}`} aria-hidden="true">
+              <div className="modal-dialog">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h1 className="modal-title fs-5" id={`descof${i}`}>
+                      PATCH DESCRIPTION
+                    </h1>
+                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div className="modal-body">
+                    {desc}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </React.Fragment>
+        );
+      })}
     </div>
+
   )
 }

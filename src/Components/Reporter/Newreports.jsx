@@ -3,10 +3,14 @@ import { ABI, Address } from '../Common/Solidity'
 import '../Styles.css'
 import Web3 from 'web3';
 import axios from 'axios';
+import jwt_decode from 'jwt-decode';
 
 export default function Newreports() {
     let account;
     let bugsArray = [], featuresArray = [];
+    const token = localStorage.getItem('token');
+    const decodedToken = token ? jwt_decode(token) : null;
+    const address = decodedToken ? decodedToken.address : null;
 
     const addBug = () => {
         let bugTitle = document.getElementById("bug-title").value;
@@ -56,7 +60,7 @@ export default function Newreports() {
             let date_rn = arr[2] + " " + arr[1] + " " + arr[3] + " " + arr[4] + " " + arr[5];
             window.web3 = new Web3(window.ethereum);
             window.contract = await new window.web3.eth.Contract(ABI, Address);
-            const result = await window.contract.methods.toAdmin(date_rn, bugsArray, featuresArray).send({ from: account });
+            const result = await window.contract.methods.toAdmin(date_rn, bugsArray, featuresArray).send({ from: address });
             console.log("Transaction details: ", result);
             const transactionData = {
                 ...result,

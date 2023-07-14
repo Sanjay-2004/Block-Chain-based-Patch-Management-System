@@ -20,7 +20,7 @@ export default function Current() {
       account = accounts[0]
       window.web3 = await new Web3(window.ethereum);
       window.contract = await new window.web3.eth.Contract(ABI, Address);
-      data = await window.contract.methods.send_list().call();
+      data = await window.contract.methods.sendList().call();
       const currentBugsDiv = document.getElementById('currentBugs');
       const currentFeaturesDiv = document.getElementById('currentFeatures');
       for (let i in data) {
@@ -137,6 +137,8 @@ export default function Current() {
         let f_arr = temp.split(",");
         arrayfUn.push(f_arr);
       });
+      console.log("Bugs: ", arrayb);
+      console.log("Features: ", arrayf);
       const result = await window.contract.methods.fromAdmin(date_rn, timeOfDev, pname, pdesc, arrayb, arrayf, arraybUn, arrayfUn).send({ from: account });
       const transactionData = {
         ...result,

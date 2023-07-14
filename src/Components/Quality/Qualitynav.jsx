@@ -57,9 +57,8 @@ export default function Qualitynav() {
                                         <i className="fa-regular fa-user"></i>
                                     </button>
                                     <ul className="dropdown-menu">
-                                        <li><NavLink className="dropdown-item text-dark bg-white" to="/">Profile</NavLink></li>
+                                        <li><NavLink className="dropdown-item text-dark bg-white" to="/profile">Profile</NavLink></li>
                                         <li><NavLink className="dropdown-item " to="/transactions">Transactions</NavLink></li>
-                                        <li><NavLink className="dropdown-item text-dark bg-white" to="/">Settings</NavLink></li>
                                         <li>
                                             <hr className="dropdown-divider" />
                                         </li>

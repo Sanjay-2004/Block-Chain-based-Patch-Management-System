@@ -38,7 +38,12 @@ router.post("/", async (req, res) => {
     if (!validPassword)
       return res.status(401).send({ message: "Invalid Password" });
 
-    const tokenPayload = { _id: user._id, email: user.email, role: user.role };
+    const tokenPayload = {
+      _id: user._id,
+      email: user.email,
+      role: user.role,
+      address: user.address,
+    };
     ////console.log("Token Payload:", tokenPayload);
 
     const token = generateAuthToken(tokenPayload);

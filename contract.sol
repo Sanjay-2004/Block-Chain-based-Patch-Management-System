@@ -41,10 +41,10 @@ contract PatchDevelopment{
     string[] times;
     mapping(string => listOfBnF) public requests;
     string[] patchnames;
-    address[] public reporters;
+    address[] public reporters=[0x9F19D5b2C468FE4344217F7759f16131083479CF];
     address[] public admins = [0xDDd20723FAA12ca629Fc988dE1a84d47daD150ca];
-    address[] public developers;
-    address[] public quality;
+    address[] public developers=[0x944B86eDBD58ba132df91a4F02503eC64425a7d2];
+    address[] public quality=[0x472530f74899f4199aEA31fe23bDE895c41D17aE];
 
     // Modifier to check if the caller is in the reporters array
     modifier onlyReporters() {
@@ -118,8 +118,11 @@ contract PatchDevelopment{
     // Used by Admin to read reports
     function sendList() public view returns(fromReporter[] memory){
         fromReporter[] memory result = new fromReporter[](times.length);
+        uint256 j=0;
         for (uint256 i = 0; i < times.length; i++) { 
-                result[i] = reports[times[i]];
+                if(reports[times[i]].admin==true) continue;
+                result[j] = reports[times[i]];
+                j++;
         }
         return result;
     }
@@ -227,16 +230,15 @@ contract PatchDevelopment{
     }
 
     // Used by the User to get the patches
-    function newPatches() public view returns(listOfBnF[] memory){
+    function newPatches() public view returns (listOfBnF[] memory) {
         listOfBnF[] memory result = new listOfBnF[](patchnames.length);
-        uint256 j=0;
-        for (uint256 i = 0; i < patchnames.length; i++) { 
-            if(requests[patchnames[i]].deployed){
-            result[j] = requests[patchnames[i]];
-            j++;
-            }
+        uint256 j = 0;
+        for (uint256 i = 0; i < patchnames.length; i++) {
+            if (requests[patchnames[i]].deployed != true) continue;
+                result[j] = requests[patchnames[i]];
+                j++;
         }
-
-        return result;
+    return result;
     }
+
 }
