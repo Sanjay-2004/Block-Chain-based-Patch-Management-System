@@ -153,7 +153,7 @@ export default function Patches() {
                                     </div>
                                     {temp.deployed && <center id={`uploadstatus${i}`}>DEPLOYED</center>}
                                     {temp.uploaded == 0 && temp.approved == 0 && <center id={`uploadstatus${i}`}><button className='btn btn-secondary' onClick={() => { sendtoVerify(i) }}>SUBMIT</button></center>}
-                                    {temp.uploaded == 1 && temp.approved == 0 && <center id={`uploadstatus${i}`}>UPLOADED SUCCESSFULLY</center>}
+                                    {temp.uploaded == 1 && (temp.approved == 0 || temp.approved == -1) && <center id={`uploadstatus${i}`}>UPLOADED SUCCESSFULLY</center>}
                                     {temp.uploaded == 1 && temp.approved == 1 && !temp.deployed && <center id={`uploadstatus${i}`}>APPROVED BY QA</center>}
                                     {temp.uploaded == -1 && temp.approved == -1 && <center id={`uploadstatus${i}`}>REJECTED BY QA<br /><button className='btn btn-danger' onClick={() => { sendtoVerify(i) }}>RE-SUBMIT</button></center>}
                                 </div>

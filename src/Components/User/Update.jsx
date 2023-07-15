@@ -72,7 +72,7 @@ export default function Update() {
                   <td><center><strong>{temp.vno}</strong></center></td>
                   <td><center>{temp.timeofReport}</center></td>
                   <td><center><button type="button" className="btn btn-secondary" data-bs-toggle="modal" data-bs-target={`#data${i}`}>BUGS & FEATURES</button></center></td>
-                  <td><button onClick={() => { getUrl(temp) }} className="btn btn-secondary">DOWNLOAD</button></td>
+                  <td><center><button onClick={() => { getUrl(temp) }} className="btn btn-secondary">DOWNLOAD</button></center></td>
                 </tr>
               )
             })}

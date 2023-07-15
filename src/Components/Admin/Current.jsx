@@ -18,15 +18,16 @@ export default function Current() {
     if (window.ethereum !== "undefined") {
       const accounts = await ethereum.request({ method: "eth_requestAccounts" });
       account = accounts[0]
-      window.web3 = await new Web3(window.ethereum);
+      window.web3 = new Web3(window.ethereum);
       window.contract = await new window.web3.eth.Contract(ABI, Address);
       data = await window.contract.methods.sendList().call();
+      console.log(data)
       const currentBugsDiv = document.getElementById('currentBugs');
       const currentFeaturesDiv = document.getElementById('currentFeatures');
       for (let i in data) {
         let temp = data[i];
         timeOfDev.push(temp.time);
-        if (!temp.admin) {
+        if (!temp.admin && temp.time != '') {
           document.getElementById('nonefornow').innerHTML = ''
           for (let j in temp.bugsSent) {
             let bugCur = temp.bugsSent[j];

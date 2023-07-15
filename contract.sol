@@ -120,9 +120,10 @@ contract PatchDevelopment{
         fromReporter[] memory result = new fromReporter[](times.length);
         uint256 j=0;
         for (uint256 i = 0; i < times.length; i++) { 
-                if(reports[times[i]].admin==true) continue;
+                if(reports[times[i]].admin==true){ continue;}
+                else{
                 result[j] = reports[times[i]];
-                j++;
+                j++;}
         }
         return result;
     }

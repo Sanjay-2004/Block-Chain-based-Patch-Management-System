@@ -2,6 +2,25 @@ export const ABI = [
 	{
 		"inputs": [
 			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "admins",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "string",
 				"name": "time_rn",
 				"type": "string"
@@ -43,6 +62,25 @@ export const ABI = [
 		"name": "deployment",
 		"outputs": [],
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "developers",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -91,118 +129,6 @@ export const ABI = [
 		"name": "fromAdmin",
 		"outputs": [],
 		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "role",
-				"type": "string"
-			},
-			{
-				"internalType": "address",
-				"name": "accountAddress",
-				"type": "address"
-			}
-		],
-		"name": "newEmployee",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_time",
-				"type": "string"
-			},
-			{
-				"internalType": "string[][]",
-				"name": "new_b",
-				"type": "string[][]"
-			},
-			{
-				"internalType": "string[][]",
-				"name": "new_f",
-				"type": "string[][]"
-			}
-		],
-		"name": "toAdmin",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "time_rn",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "pname",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "ver",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "fileName",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_cid",
-				"type": "string"
-			}
-		],
-		"name": "uploadedbyDev",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "admins",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "developers",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -307,6 +233,24 @@ export const ABI = [
 			}
 		],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "role",
+				"type": "string"
+			},
+			{
+				"internalType": "address",
+				"name": "accountAddress",
+				"type": "address"
+			}
+		],
+		"name": "newEmployee",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -658,6 +602,29 @@ export const ABI = [
 	{
 		"inputs": [
 			{
+				"internalType": "string",
+				"name": "_time",
+				"type": "string"
+			},
+			{
+				"internalType": "string[][]",
+				"name": "new_b",
+				"type": "string[][]"
+			},
+			{
+				"internalType": "string[][]",
+				"name": "new_f",
+				"type": "string[][]"
+			}
+		],
+		"name": "toAdmin",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
@@ -712,6 +679,39 @@ export const ABI = [
 		],
 		"stateMutability": "view",
 		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "time_rn",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "pname",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "ver",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "fileName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_cid",
+				"type": "string"
+			}
+		],
+		"name": "uploadedbyDev",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	}
 ];
-export const Address = "0xcaD5cFA7096A547FBA995ecD84F6C46c9743b24B";
+export const Address = "0x613516B1445B52a67E357B6619C9929a40b6C7eB";
