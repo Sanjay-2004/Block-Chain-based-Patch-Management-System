@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, Outlet } from 'react-router-dom';
 
+
 export default function Login() {
     const [data, setData] = useState({ email: '', password: '' });
     const [error, setError] = useState('');
@@ -12,9 +13,12 @@ export default function Login() {
     };
 
     const handleSubmit = async (e) => {
+        console.log("Entered")
         e.preventDefault();
+        console.log(import.meta.env.VITE_BASE_URL)
         try {
-            const url = 'http://localhost:8080/login';
+            const url = `${import.meta.env.VITE_BASE_URL}/login`;
+            console.log(url)
             const { data: res } = await axios.post(url, data);
             localStorage.setItem('token', res.data);
             window.location = '/';

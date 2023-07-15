@@ -3,6 +3,7 @@ import { ABI, Address } from '../Common/Solidity'
 import Web3 from 'web3';
 import { Web3Storage } from 'web3.storage';
 import axios from 'axios';
+
 export default function Patches() {
 
     let account;
@@ -52,7 +53,7 @@ export default function Patches() {
                 };
 
                 try {
-                    const url = 'http://localhost:8080/transactions'
+                    const url = `${import.meta.env.VITE_BASE_URL}/transactions`
                     await axios.post(url, transactionData);
                     console.log('Transaction saved successfully');
                 } catch (error) {

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 
+
 export default function Transaction() {
     useEffect(() => {
         transactionHistory();
@@ -11,7 +12,7 @@ export default function Transaction() {
     const transactionHistory = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get("http://localhost:8080/transactions", {
+            const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/transactions`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 }

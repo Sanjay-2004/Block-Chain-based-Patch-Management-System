@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import axios from 'axios';
 
+
 export default function Reporternav() {
     const [showAlert, setShowAlert] = useState(false);
     const location = useLocation();
@@ -10,7 +11,7 @@ export default function Reporternav() {
         try {
             const token = localStorage.getItem('token');
             console.log(token)
-            const response = await axios.get("http://localhost:8080/verification", {
+            const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/verification`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

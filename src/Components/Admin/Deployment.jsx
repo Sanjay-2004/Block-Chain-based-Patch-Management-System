@@ -5,6 +5,7 @@ import { Web3Storage } from 'web3.storage';
 import $ from 'jquery';
 import axios from 'axios';
 
+
 export default function Deployment() {
 
     let account;
@@ -37,7 +38,7 @@ export default function Deployment() {
             };
 
             try {
-                const url = 'http://localhost:8080/transactions'
+                const url = `${import.meta.env.VITE_BASE_URL}/transactions`
                 await axios.post(url, transactionData);
                 console.log('Transaction saved successfully');
             } catch (error) {

@@ -5,6 +5,7 @@ import '../Styles.css'
 import $ from 'jquery';
 import axios from 'axios';
 
+
 export default function Current() {
 
   let timeOfDev = [];
@@ -152,7 +153,7 @@ export default function Current() {
       };
 
       try {
-        const url = 'http://localhost:8080/transactions'
+        const url = `${import.meta.env.VITE_BASE_URL}/transactions`
         await axios.post(url, transactionData);
         console.log(result)
         console.log('Transaction saved successfully');

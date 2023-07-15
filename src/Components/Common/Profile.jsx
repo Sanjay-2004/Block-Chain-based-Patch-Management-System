@@ -5,6 +5,7 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../Styles.css"; // Custom CSS file for styling
 
+
 export default function Profile() {
     const [profile, setProfile] = useState({});
     const [password, setPassword] = useState("");
@@ -20,7 +21,7 @@ export default function Profile() {
     const fetchProfile = async () => {
         try {
             const token = localStorage.getItem("token");
-            const response = await axios.get("http://localhost:8080/employees", {
+            const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/employees`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -41,7 +42,7 @@ export default function Profile() {
             }
 
             const response = await axios.put(
-                "http://localhost:8080/employees",
+                `${import.meta.env.VITE_BASE_URL}/employees`,
                 {
                     password,
                     newPassword,

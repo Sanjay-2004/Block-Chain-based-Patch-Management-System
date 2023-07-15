@@ -5,6 +5,7 @@ import Web3 from 'web3';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 
+
 export default function Newreports() {
     let bugsArray = [], featuresArray = [];
     const token = localStorage.getItem('token');
@@ -68,7 +69,7 @@ export default function Newreports() {
             };
 
             try {
-                const url = 'http://localhost:8080/transactions'
+                const url = `${import.meta.env.VITE_BASE_URL}/transactions`
                 await axios.post(url, transactionData);
                 console.log('Transaction saved successfully');
             } catch (error) {

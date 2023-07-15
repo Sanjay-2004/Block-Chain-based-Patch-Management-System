@@ -5,6 +5,7 @@ import { Web3Storage } from 'web3.storage';
 import $ from 'jquery';
 import axios from 'axios';
 
+
 export default function Verification() {
 
   let account;
@@ -46,7 +47,7 @@ export default function Verification() {
       else
         transactionData.transactionDone = "Patch Rejected"
       try {
-        const url = 'http://localhost:8080/transactions'
+        const url = `${import.meta.env.VITE_BASE_URL}/transactions`
         await axios.post(url, transactionData);
         console.log('Transaction saved successfully');
       } catch (error) {

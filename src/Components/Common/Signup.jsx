@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+
 const Signup = () => {
     const [data, setData] = useState({
         firstName: '',
@@ -21,7 +22,7 @@ const Signup = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const url = 'http://localhost:8080/signup';
+            const url = `${import.meta.env.VITE_BASE_URL}/signup`;
             const { data: res } = await axios.post(url, data);
             navigate('/login');
             console.log(res.message);

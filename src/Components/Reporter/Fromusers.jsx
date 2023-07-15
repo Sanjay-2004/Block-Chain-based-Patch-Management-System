@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+
 export default function FromUsers() {
   const [bugReports, setBugReports] = useState([]);
 
@@ -10,7 +11,7 @@ export default function FromUsers() {
 
   const fetchBugReports = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/bugs');
+      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/bugs`);
       const data = response.data;
 
       setBugReports(data);
@@ -23,7 +24,7 @@ export default function FromUsers() {
     const isChecked = event.target.checked;
 
     try {
-      await axios.put(`http://localhost:8080/bugs/${bugId}`, { okbyReporter: isChecked });
+      await axios.put(`${import.meta.env.VITE_BASE_URL}/bugs/${bugId}`, { okbyReporter: isChecked });
 
       fetchBugReports();
     } catch (error) {

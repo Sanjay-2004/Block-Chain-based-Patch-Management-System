@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+
 export default function Report() {
   const [bugDescription, setBugDescription] = useState('');
 
@@ -9,7 +10,7 @@ export default function Report() {
     const bugData = { token, bugDescription };
 
     try {
-      const response = await axios.post('http://localhost:8080/bugs', bugData);
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/bugs`, bugData);
 
       if (response.data.status) {
         const k = document.getElementById('submitted');

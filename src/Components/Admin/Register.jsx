@@ -3,6 +3,7 @@ import axios from 'axios';
 import Web3 from 'web3';
 import { ABI, Address } from '../Common/Solidity'
 
+
 export default function Register() {
     const initialState = {
         firstName: '',
@@ -64,7 +65,7 @@ export default function Register() {
         }
         try {
             console.log("sending to backend")
-            const url = 'http://localhost:8080/employees';
+            const url = `${import.meta.env.VITE_BASE_URL}/employees`;
             const res = await axios.post(url, data);
             console.log(res);
             setData(initialState);
@@ -84,7 +85,7 @@ export default function Register() {
                 token: localStorage.getItem('token'),
                 transactionDone: "New Employee Registration"
             };
-            const url = 'http://localhost:8080/transactions'
+            const url = `${import.meta.env.VITE_BASE_URL}/transactions`
             await axios.post(url, transactionData);
             console.log('Transaction saved successfully');
         } catch (error) {
