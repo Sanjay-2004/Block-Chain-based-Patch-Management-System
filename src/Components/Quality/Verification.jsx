@@ -18,6 +18,9 @@ export default function Verification() {
 
   const verified = async (i) => {
     if (window.ethereum !== "undefined") {
+      const token = localStorage.getItem('token');
+      const decodedToken = token ? jwt_decode(token) : null;
+      const address = decodedToken ? decodedToken.address : null;
       const accounts = await ethereum.request({ method: "eth_requestAccounts" });
       account = accounts[0];
       window.web3 = new Web3(window.ethereum);
@@ -33,7 +36,7 @@ export default function Verification() {
       console.log(date_rn)
       console.log(typeof (stat))
       console.log(pname)
-      const result = await window.contract.methods.approval(date_rn, stat, pname).send({ from: account });
+      const result = await window.contract.methods.approval(date_rn, stat, pname).send({ from: address });
       const transactionData = {
         ...result,
         token: localStorage.getItem('token'),

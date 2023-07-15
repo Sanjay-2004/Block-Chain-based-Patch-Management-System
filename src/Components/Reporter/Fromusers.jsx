@@ -54,7 +54,7 @@ export default function FromUsers() {
                       onChange={(event) => handleCheckboxChange(event, bug._id)}
                     />
                     <label className="form-check-label">
-                      Mark as resolved
+                      Mark as Reported
                     </label>
                   </div>
                 </li>
@@ -62,8 +62,8 @@ export default function FromUsers() {
           </ul>
         </div>
         <div className="col-md-6">
-          <h2>RESOLVED:</h2>
-          <ul className="list-group my-2" id="resolvedBugs">
+          <h2>REPORTED:</h2>
+          <ul className="list-group my-2" id="reportedBugs">
             {bugReports
               .filter((bug) => bug.okbyReporter)
               .map((bug) => (

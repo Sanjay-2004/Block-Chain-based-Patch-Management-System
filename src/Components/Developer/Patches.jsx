@@ -15,6 +15,9 @@ export default function Patches() {
         if (window.ethereum !== "undefined") {
             const accounts = await ethereum.request({ method: "eth_requestAccounts" });
             account = accounts[0];
+            const token = localStorage.getItem('token');
+            const decodedToken = token ? jwt_decode(token) : null;
+            const address = decodedToken ? decodedToken.address : null;
             // console.log(data)
             let patchName = data[i].patchName;
             let patchVersion = document.getElementById(`versionfor${data[i].patchName}`).value;
@@ -41,7 +44,7 @@ export default function Patches() {
                 console.log(cid) // Upload the updated file
                 let dateofupload = new Date().toString().split(" ");
                 let timeofupload = dateofupload[2] + " " + dateofupload[1] + " " + dateofupload[3] + " " + dateofupload[4] + " " + dateofupload[5];
-                const result = await contract.methods.uploadedbyDev(timeofupload, patchName, patchVersion, fileName, cid).send({ from: account });
+                const result = await contract.methods.uploadedbyDev(timeofupload, patchName, patchVersion, fileName, cid).send({ from: address });
                 const transactionData = {
                     ...result,
                     token: localStorage.getItem('token'),

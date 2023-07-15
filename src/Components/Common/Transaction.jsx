@@ -20,8 +20,6 @@ export default function Transaction() {
         } catch (error) {
             setError(error);
         }
-        let history = document.createElement('div')
-        history.className = "card"
 
     }
     return (
@@ -32,10 +30,10 @@ export default function Transaction() {
                 </div>
             ) : (cardData.map((cdata) => (
                 <div className='card mb-3' key={cdata._id}>
-                    <h5 className='card-header text-center'>{cdata.transactionHash}</h5>
+                    <p className='card-header text-center'>Transction Hash: <h5>{cdata.transactionHash}</h5></p>
                     <div className='card-body'>
-                        <h5 className='card-title'>Sender: {cdata.sender}</h5>
-                        <h5 className='card-title'>Receiver: {cdata.receiver}</h5>
+                        <p className='card-title'>Sender: {cdata.sender}</p>
+                        <p className='card-title'>Receiver: {cdata.receiver}</p>
                         <p className='card-text'>Block Hash: {cdata.blockHash}</p>
                         <p className='card-text'>Block Number: {cdata.blockNumber}</p>
                         <p className='card-text'>Gas Used: {cdata.gasUsed}</p>

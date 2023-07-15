@@ -5,7 +5,6 @@ import $ from 'jquery';
 import { Web3Storage } from 'web3.storage';
 
 export default function Update() {
-  let account;
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -32,8 +31,6 @@ export default function Update() {
 
   const updates = async () => {
     if (window.ethereum !== 'undefined') {
-      const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-      account = accounts[0];
       window.web3 = new Web3(window.ethereum);
       window.contract = await new window.web3.eth.Contract(ABI, Address);
       const fetchedData = await window.contract.methods.newPatches().call();

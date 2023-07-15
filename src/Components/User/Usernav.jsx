@@ -26,30 +26,12 @@ export default function Usernav() {
                                 <NavLink className="nav-link text-light" to="updates">CHECK FOR UPDATES</NavLink>
                             </li>
                             <li className="nav-item ms-5">
-                                <div className="btn-group dropstart">
-                                    <button type="button" className="btn btn-light btn-lg dropdown-toggle" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-                                        <i className="fa-regular fa-user"></i>
-                                    </button>
-                                    <ul className="dropdown-menu">
-                                        <li>
-                                            <NavLink className="dropdown-item text-dark bg-white text-dark bg-light" to="/">Profile</NavLink>
-                                        </li>
-                                        <li>
-                                            <NavLink className="dropdown-item text-dark bg-white text-dark bg-light" to="/">Settings</NavLink>
-                                        </li>
-                                        <li>
-                                            <hr className="dropdown-divider" />
-                                        </li>
-                                        <li>
-                                            <NavLink className="dropdown-item text-dark bg-white text-dark bg-light" onClick={handleLogout}>
-                                                Logout
-                                            </NavLink>
-                                        </li>
-                                    </ul>
-
-                                </div>
+                                <NavLink className="btn btn-light" onClick={handleLogout}>
+                                    <i className="fa-regular fa-user"></i>
+                                    Logout
+                                </NavLink>
                             </li>
+
                         </ul>
                     </div>
                 </div>

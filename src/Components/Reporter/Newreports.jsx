@@ -6,7 +6,6 @@ import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 
 export default function Newreports() {
-    let account;
     let bugsArray = [], featuresArray = [];
     const token = localStorage.getItem('token');
     const decodedToken = token ? jwt_decode(token) : null;

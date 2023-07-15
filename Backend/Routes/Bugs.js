@@ -1,15 +1,18 @@
 import express from "express";
 const router = express.Router();
 import Bug from "../Models/Bug.js";
+import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
+dotenv.config();
 
 router
   .route("/")
   .post(async (req, res) => {
     try {
-      const { email, bugDescription } = req.body;
+      const { token, bugDescription } = req.body;
+      const email = jwt.verify(token, process.env.JWTPRIVATEKEY).email;
 
       const bug = await Bug.create({ email, bugDescription });
-
       if (bug) {
         //console.log("Bug submitted:", bug);
         res.send({

@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 export default function Report() {
-  const [email, setEmail] = useState('');
   const [bugDescription, setBugDescription] = useState('');
 
   const submitBug = async () => {
-    const bugData = { email, bugDescription };
+    const token = localStorage.getItem('token');
+    const bugData = { token, bugDescription };
 
     try {
       const response = await axios.post('http://localhost:8080/bugs', bugData);
@@ -14,7 +14,6 @@ export default function Report() {
       if (response.data.status) {
         const k = document.getElementById('submitted');
         k.innerHTML = `BUG SENT SUCCESSFULLY<br>THANK YOU`;
-        setEmail('');
         setBugDescription('');
       }
     } catch (error) {
@@ -25,19 +24,6 @@ export default function Report() {
   return (
     <div className="container my-5">
       <h2>REPORT A BUG:</h2>
-      <div className="my-3">
-        <label htmlFor="exampleFormControlInput1" className="form-label">
-          Email address
-        </label>
-        <input
-          type="email"
-          className="form-control"
-          id="exampleFormControlInput1"
-          placeholder="name@example.com"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-        />
-      </div>
       <div className="my-5">
         <label htmlFor="exampleFormControlTextarea1" className="form-label">
           BUG Description

@@ -20,13 +20,16 @@ export default function Deployment() {
         if (window.ethereum !== "undefined") {
             const accounts = await ethereum.request({ method: "eth_requestAccounts" });
             account = accounts[0]
+            const token = localStorage.getItem('token');
+            const decodedToken = token ? jwt_decode(token) : null;
+            const address = decodedToken ? decodedToken.address : null;
             window.web3 = new Web3(window.ethereum);
             window.contract = await new window.web3.eth.Contract(ABI, Address);
             let pname = data[i].patchName
             let arr = new Date().toString().split(" ");
             let date_rn = arr[2] + " " + arr[1] + " " + arr[3] + " " + arr[4] + " " + arr[5];
             let k = true;
-            const result = await window.contract.methods.deployment(date_rn, pname, k).send({ from: account });
+            const result = await window.contract.methods.deployment(date_rn, pname, k).send({ from: address });
             const transactionData = {
                 ...result,
                 token: localStorage.getItem('token'),
