@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Web3 from 'web3';
 import { ABI, Address } from '../Common/Solidity'
-
+import Swal from 'sweetalert2';
 
 export default function Register() {
     const initialState = {
@@ -88,6 +88,11 @@ export default function Register() {
             const url = `${import.meta.env.VITE_BASE_URL}/transactions`
             await axios.post(url, transactionData);
             console.log('Transaction saved successfully');
+            Swal.fire(
+                'Registration Successful',
+                'New Employee successfully Registered and Mail is sent!',
+                'success'
+            )
         } catch (error) {
             console.log('Error saving transaction:', error);
         }

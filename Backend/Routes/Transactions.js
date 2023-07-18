@@ -35,7 +35,8 @@ router.post("/", async (req, res, next) => {
     res.status(201).send({ message: "Transaction saved successfully" });
   } catch (error) {
     console.error("Error saving transaction:", error);
-    next(new ErrorHandler(500, "Internal Server Error"));
+    res.status(500).send({ message: "Internal Server Error" });
+    // next(new ErrorHandler(500, "Internal Server Error"));
   }
 });
 

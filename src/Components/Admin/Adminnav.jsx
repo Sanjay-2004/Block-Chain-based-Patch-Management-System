@@ -93,11 +93,6 @@ export default function Adminnav() {
                                             </NavLink>
                                         </li>
                                         <li>
-                                            <NavLink className="dropdown-item" to="/settings">
-                                                Settings
-                                            </NavLink>
-                                        </li>
-                                        <li>
                                             <hr className="dropdown-divider" />
                                         </li>
                                         <li>

@@ -3,6 +3,7 @@ import { ABI, Address } from '../Common/Solidity'
 import Web3 from 'web3';
 import { Web3Storage } from 'web3.storage';
 import axios from 'axios';
+import jwt_decode from 'jwt-decode';
 
 export default function Patches() {
 

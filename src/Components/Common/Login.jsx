@@ -99,9 +99,9 @@ export default function Login() {
                         Sign in
                     </button>
 
-                    <div className='mt-3'>
+                    {/* <div className='mt-3'>
                         <a href='#'>Forgot Password</a>
-                    </div>
+                    </div> */}
                     <div className='mt-2'>
                         <span>
                             Don't have an Account? <Link to='/signup'>Sign up</Link>

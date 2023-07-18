@@ -4,6 +4,7 @@ import Web3 from 'web3';
 import '../Styles.css'
 import $ from 'jquery';
 import axios from 'axios';
+import jwt_decode from 'jwt-decode';
 
 
 export default function Current() {

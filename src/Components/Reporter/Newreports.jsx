@@ -7,6 +7,7 @@ import jwt_decode from 'jwt-decode';
 
 
 export default function Newreports() {
+    let account;
     let bugsArray = [], featuresArray = [];
     const token = localStorage.getItem('token');
     const decodedToken = token ? jwt_decode(token) : null;
@@ -60,6 +61,8 @@ export default function Newreports() {
             let date_rn = arr[2] + " " + arr[1] + " " + arr[3] + " " + arr[4] + " " + arr[5];
             window.web3 = new Web3(window.ethereum);
             window.contract = await new window.web3.eth.Contract(ABI, Address);
+            console.log(bugsArray)
+            console.log(featuresArray)
             const result = await window.contract.methods.toAdmin(date_rn, bugsArray, featuresArray).send({ from: address });
             console.log("Transaction details: ", result);
             const transactionData = {
